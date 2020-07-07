@@ -1,24 +1,43 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+import "./App.css";
+const mapStyle = require("./mapstyle.json");
+
+const mapContainerStyle = {
+  width: "100vw",
+  height: "100vh",
+};
+
+const center = {
+  lat: 51.542285,
+  lng: -0.056299,
+};
+
+const options = {
+  styles: mapStyle,
+  disableDefaultUI: true,
+  zoomControl: true,
+};
 
 function App() {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_KEY,
+  });
+  if (loadError) return "error loading maps";
+  if (!isLoaded) return "Loading maps";
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ width: "100vw", height: "100vh" }}>
+      <GoogleMap
+        mapContainerStyle={mapContainerStyle}
+        zoom={17}
+        center={center}
+        options={options}
+      ></GoogleMap>
     </div>
   );
 }
