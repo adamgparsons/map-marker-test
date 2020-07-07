@@ -37,7 +37,19 @@ function App() {
         zoom={17}
         center={center}
         options={options}
-      ></GoogleMap>
+      >
+        <Marker
+          position={{
+            lat: 51.542285,
+            lng: -0.056299,
+          }}
+          icon={{
+            url: "/icons/location-focus.svg",
+            origin: new window.google.maps.Point(0, 0),
+            anchor: new window.google.maps.Point(15, 15),
+          }}
+        />
+      </GoogleMap>
     </div>
   );
 }
