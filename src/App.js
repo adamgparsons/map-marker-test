@@ -6,6 +6,8 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 import "./App.css";
+import LocationMarker from "./components/LocationMarker";
+import GenerateResourceMarkers from "./components/GenerateResourceMarkers";
 const mapStyle = require("./mapstyle.json");
 
 const mapContainerStyle = {
@@ -38,17 +40,8 @@ function App() {
         center={center}
         options={options}
       >
-        <Marker
-          position={{
-            lat: 51.542285,
-            lng: -0.056299,
-          }}
-          icon={{
-            url: "/icons/location-focus.svg",
-            origin: new window.google.maps.Point(0, 0),
-            anchor: new window.google.maps.Point(15, 15),
-          }}
-        />
+        <LocationMarker />
+        <GenerateResourceMarkers />
       </GoogleMap>
     </div>
   );
