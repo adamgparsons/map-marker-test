@@ -1,20 +1,17 @@
 import React from "react";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
+import { Marker } from "@react-google-maps/api";
 
-const ResourceMarker = ({ location, iconUrl }) => {
+const ResourceMarker = ({ key, resource, clusterer }) => {
   return (
     <Marker
-      position={location}
+      key={key}
+      position={{ lat: resource.lat, lng: resource.lng }}
       icon={{
-        url: iconUrl,
+        url: `/icons/${resource.type}-${resource.status}.svg`,
         origin: new window.google.maps.Point(0, 0),
-        anchor: new window.google.maps.Point(16, 16),
+        anchor: new window.google.maps.Point(16, 32),
       }}
+      clusterer={clusterer}
     />
   );
 };
