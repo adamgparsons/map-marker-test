@@ -24,7 +24,6 @@ const Sidebar = ({
   }
 
   const handleChange = (e) => {
-    console.log(e.target.dataset.filterName);
     if (e.target.dataset.filterName === "resource") {
       setSelectedResources({
         ...selectedResources,
@@ -33,7 +32,6 @@ const Sidebar = ({
     }
 
     if (e.target.dataset.filterName === "status") {
-      console.log("hello");
       setSelectedStatuses({
         ...selectedStatuses,
         [e.target.name]: !selectedStatuses[e.target.name],

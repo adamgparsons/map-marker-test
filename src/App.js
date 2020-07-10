@@ -75,14 +75,14 @@ function createKey(resource) {
   return resource.lat + resource.lng;
 }
 
-const resourceToShow = (resourceList, filterA) => {
-  if (filterA["vehicle-unit"] === false) {
-    return resourceList;
-  }
-  if (filterA["vehicle-unit"] === true) {
-    resourceList.filter((resource) => resource.type === "vehicle-unit");
-  }
-};
+// const resourceToShow = (resourceList, filterA) => {
+//   if (filterA["vehicle-unit"] === false) {
+//     return resourceList;
+//   }
+//   if (filterA["vehicle-unit"] === true) {
+//     resourceList.filter((resource) => resource.type === "vehicle-unit");
+//   }
+// };
 
 function App() {
   const [selectedResources, setSelectedResources] = useState({
@@ -94,14 +94,6 @@ function App() {
     "officer-firearm": false,
     civillian: false,
   });
-  const [shownResources, setShownResources] = useState(
-    resourceToShow(resources, selectedResources)
-  );
-
-  useEffect(() => {
-    // Update the document title using the browser API
-    setShownResources(resourceToShow(resources, selectedResources));
-  });
 
   const [selectedStatuses, setSelectedStatuses] = useState({
     emergency: false,
@@ -111,6 +103,51 @@ function App() {
     "committed-not-deployable": false,
     "off-duty": false,
   });
+
+  const filterResources = (resourceList) => {
+    const resourceTypeFiltered = Object.values(selectedResources).find(resource => resource === true)
+    const statusFiltered = Object.values(selectedStatuses).find(status => status === true)
+    const filterUsed = resourceTypeFiltered || statusFiltered
+
+    if (filterUsed) {
+      function filterResourceTypes() {
+        const resourceTypeNamesToFilter = Object.entries(selectedResources).filter(resource => resource[1] && resource).map(element => element[0])
+        return resourceTypeNamesToFilter.map(resourceName => resourceList.filter(resource => resource.type === resourceName)).reduce((a, b) => a.concat(b), [])
+      }
+
+      function filterStatusTypes() {
+        const statusNamesToFilter = Object.entries(selectedStatuses).filter(status => status[1] && status).map(element => element[0])
+        return statusNamesToFilter.map(statusName => resourceList.filter(resource => resource.status === statusName)).reduce((a, b) => a.concat(b), [])
+      }
+      if (resourceTypeFiltered && statusFiltered) {
+        console.log(filterResourceTypes().concat(filterStatusTypes()))
+        return filterResourceTypes().concat(filterStatusTypes())
+      }
+      if (resourceTypeFiltered) {
+        return filterResourceTypes()
+      }
+
+      if (statusFiltered) {
+        return filterStatusTypes()
+      }
+
+
+
+    }
+
+    else {
+      return resourceList
+    }
+
+  }
+  const shownResources = filterResources(resources)
+  // const [shownResources, setShownResources] = useState(newResources
+  // );
+
+  // const filteredResources =  shownResources.filter(resource => resource.type === "vehicle-unit")
+
+
+
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_KEY,
