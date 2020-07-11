@@ -30,7 +30,7 @@ const options = {
 
 const clusterOptions = {
   imagePath:
-    "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+    "https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/packages/markerclustererplus/images/m",
 };
 
 function createKey(resource) {
@@ -137,10 +137,7 @@ function App() {
         onProjectionChanged={e => console.log(e)}
       >
         <HeatmapLayer
-
-          // required
           data={incidentData.map(incident => new window.google.maps.LatLng(incident.lat, incident.lng))}
-
         />
 
         <LocationMarker />
