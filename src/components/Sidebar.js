@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import theme from "../theme";
 
 import styled from "styled-components";
 
@@ -9,19 +10,40 @@ const SidebarContainer = styled.aside`
   position: absolute;
   z-index: 1;
   box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.25);
+  font-size: ${theme.fontSizes[3]};
 `;
+function prettify(str) {
+  return str.replace(/(-|^)([^-]?)/g, function (_, prep, letter) {
+    return (prep && " ") + letter.toUpperCase();
+  });
+}
 
+const options = ["resources", "incidents", "cameras", "cars"]
 const Sidebar = ({
   selectedResources,
   setSelectedResources,
   selectedStatuses,
   setSelectedStatuses,
+  resourceDetail,
 }) => {
-  function prettify(str) {
-    return str.replace(/(-|^)([^-]?)/g, function (_, prep, letter) {
-      return (prep && " ") + letter.toUpperCase();
-    });
-  }
+
+  const [display, setDisplay] = useState(false);
+  const [search, setSearch] = useState("");
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
+  const handleClickOutside = event => {
+    const { current: wrap } = wrapperRef;
+    if (wrap && !wrap.contains(event.target)) {
+      setDisplay(false);
+    }
+  };
 
   const handleChange = (e) => {
     if (e.target.dataset.filterName === "resource") {
@@ -58,6 +80,40 @@ const Sidebar = ({
 
   return (
     <SidebarContainer>
+      <div ref={wrapperRef}>
+
+        <input
+          id="auto"
+          onClick={() => setDisplay(!display)}
+          placeholder="Type to search"
+          value={search}
+          onChange={event => setSearch(event.target.value)}
+        />
+        {display && (
+          <div className="autoContainer">
+            {console.log(options
+              .filter((item) => item.startsWith(search)))}
+            {/* substr( $string_n, 0, 4 ) === "http" */}
+            {console.log(search.length)}
+            {options
+              .filter((item) => item.startsWith(search))
+              .map((value, i) => {
+                return (
+                  <div
+                    // onClick={() => updatePokeDex(value.name)}
+                    className="option"
+                    key={i}
+                    tabIndex="0"
+                  >
+                    <span>{value}</span>
+                  </div>
+                );
+              })}
+          </div>
+        )}
+      </div>
+
+
       <h1>Resources</h1>
       <form>
         {Object.entries(selectedResources).map((resource) => (
@@ -72,7 +128,10 @@ const Sidebar = ({
         ))}
       </form>
 
-      <radio></radio>
+      {resourceDetail && <div>
+        <h2>{resourceDetail.type}</h2>
+        <p>{resourceDetail.status}</p>
+      </div>}
     </SidebarContainer>
   );
 };
