@@ -4,7 +4,6 @@ import {
   useLoadScript,
   MarkerClusterer,
   HeatmapLayer,
-  LoadScript
 } from "@react-google-maps/api";
 import "./App.css";
 import LocationMarker from "./components/LocationMarker";
@@ -12,6 +11,8 @@ import ResourceMarker from "./components/ResourceMarker";
 import Sidebar from "./components/Sidebar";
 import resourcesData from "./data/resourcesData";
 import incidentData from "./data/incidentData";
+import OpenSidebarButton from "./components/OpenSidebarButton";
+import CommandPanel from "./components/CommandPanel";
 const mapStyle = require("./mapstyle.json");
 
 const mapContainerStyle = {
@@ -30,7 +31,7 @@ const options = {
 
 const clusterOptions = {
   imagePath:
-    "https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/packages/markerclustererplus/images/m",
+    "https://raw.githubusercontent.com/adamgparsons/map-marker-test/master/public/cluster/m",
 };
 
 function createKey(resource) {
@@ -47,6 +48,7 @@ function App() {
   const mapRef = useRef();
   const [resourceDetail, setResourceDetail] = useState();
   const [zoom, setZoom] = useState(17)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [selectedResources, setSelectedResources] = useState({
     "vehicle-unit": false,
     "dog-unit": false,
@@ -119,13 +121,17 @@ function App() {
 
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
-      <Sidebar
-        selectedResources={selectedResources}
-        setSelectedResources={setSelectedResources}
-        selectedStatuses={selectedStatuses}
-        setSelectedStatuses={setSelectedStatuses}
-        resourceDetail={resourceDetail}
-      />
+      <CommandPanel />
+      {sidebarOpen &&
+
+        <Sidebar
+          selectedResources={selectedResources}
+          setSelectedResources={setSelectedResources}
+          selectedStatuses={selectedStatuses}
+          setSelectedStatuses={setSelectedStatuses}
+          resourceDetail={resourceDetail}
+        />}
+      <OpenSidebarButton sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <GoogleMap
         ref={mapRef}
@@ -134,7 +140,6 @@ function App() {
         center={mapCenter}
         options={options}
         panTo={mapCenter}
-        onProjectionChanged={e => console.log(e)}
       >
         <HeatmapLayer
           data={incidentData.map(incident => new window.google.maps.LatLng(incident.lat, incident.lng))}

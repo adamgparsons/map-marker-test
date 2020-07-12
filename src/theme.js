@@ -29,54 +29,30 @@ const theme = {
     measures: ["20em", "30em", "34em"],
     typeface: "soleil, sans-serif",
     textStyles: {
-        heading1: {
-            fontFamily: "soleil, sans-serif",
-            fontSize: "42px",
-            lineHeight: "56px",
-            fontWeight: "800",
-            color: "#2D3748",
-            marginTop: "0px",
-            marginBottom: "0px",
-        },
-        heading2: {
-            fontFamily: "soleil, sans-serif",
-            fontSize: "36px",
-            lineHeight: "48px",
-            fontWeight: "800",
-            color: "#2D3748",
-            marginTop: "0px",
-            marginBottom: "0px",
-        },
-        heading3: {
-            fontFamily: "soleil, sans-serif",
-            color: "#4A5568",
-            fontSize: "24px",
-            lineHeight: "28px",
-            fontWeight: "800",
-        },
         body: {
-            fontFamily: "soleil, sans-serif",
-            fontSize: "16px",
-            lineHeight: "30px",
+            fontSize: "18px",
+            lineHeight: "24px",
             fontWeight: "400",
-            color: "#4A5568",
-            marginTop: "0px",
-            marginBottom: "0px",
+        },
+        uiSmall: {
+            fontSize: "16px",
+            lineHeight: "24px",
+            fontWeight: "400",
         },
     },
     colors: {
-        grey100: "#F7FAFC",
-        grey200: "#EDF2F7",
-        grey300: "#E2E8F0",
-        grey400: "#CBD5E0",
-        grey500: "#A0AEC0",
-        grey600: "#718096",
-        grey700: "#4A5568",
-        grey800: "#2D3748",
-        grey900: "#1A202C",
-        white0125: "rgba(255,255,255,.0125)",
-        brandBlue: "#4E97D0",
+        white: "#FFFFFF",
+        bgSurface: "#121212",
+        bgGeneral: "#121212",
+        bgNav: "#20202C",
+        bgInactive: "#363641",
+        bgLog: "#1A1A23",
+        textInactive: "#888888",
+        cta2: "#505A74"
     },
+    boxShadows: {
+        ui: `0px 4px 20px #20202C`
+    }
 }
 
 export default theme
